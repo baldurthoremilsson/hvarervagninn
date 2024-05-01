@@ -1,95 +1,68 @@
+"use client"
+
 import Image from 'next/image'
 import styles from './page.module.css'
+import { useEffect, useState } from 'react';
+
+const STRAETO_API = "https://straeto.is/graphql"
+
+const DEFAULT_LAT = 64.143303656234;
+const DEFAULT_LON = -21.9146771540298;
+
+interface Coords {
+  lat: number,
+  lon: number,
+}
+
+type Stop = {
+		id: number,
+		name: string,
+		lat: number,
+		lon: number,
+		type: number,
+		rotation: number,
+		code: string,
+		isTerminal: boolean,
+		routes: Array<string>,
+		alerts: Array<string>,
+}
+
+const calcPos = (posA: Coords, posB: Coords) => Math.sqrt(Math.pow(posA.lat - posB.lat, 2) + Math.pow(posA.lon - posB.lon, 2))
 
 export default function Home() {
+  let [currentPos, setCurrentPos] = useState<Coords>({lat: DEFAULT_LAT, lon: DEFAULT_LON});
+  let [stops, setStops] = useState<Array<Stop>>([]);
+
+  useEffect(() => {
+    navigator.geolocation.watchPosition(pos => setCurrentPos({
+      lat: pos.coords.latitude,
+      lon: pos.coords.longitude,
+    }));
+  }, [setCurrentPos]);
+
+  useEffect(() => {
+    let params = new URLSearchParams({
+      operationName: "Stops",
+      variables: JSON.stringify({}),
+      extensions: JSON.stringify({"persistedQuery":{"version":1,"sha256Hash":"f08f0d5961220e45de84d6d2b77a6e21de36e37066d510fa6c0d6f1ce145a82f"}}),
+    })
+    fetch(`${STRAETO_API}?` + params, {
+      headers: {"Content-Type": "application/json"}
+    })
+      .then(response => response.json())
+      .then(stopsData => stopsData.data.GtfsStops.results.sort((a: Coords, b: Coords) => calcPos(a, currentPos) - calcPos(b, currentPos)))
+      .then(setStops)
+      .catch(e => console.error(e));
+  }, [currentPos, setStops]);
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <div>Stops:</div>
+      <ol>
+        {stops.map(stop => (
+          <li key={stop.id}>{stop.name}</li>
+        ))}
+      </ol>
     </main>
   )
 }

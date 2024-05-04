@@ -3,11 +3,13 @@ import { BusLocationArrival } from "../types";
 type StopInfoProps = {
   stopName: string,
   arrivals: Array<BusLocationArrival> | undefined,
+  isFavorite: boolean,
+  toggleFavorite: () => void,
 };
 
 type ArrivalEntry = [string, Array<number>];
 
-export function StopInfo({ stopName, arrivals }: StopInfoProps) {
+export function StopInfo({ stopName, arrivals, isFavorite, toggleFavorite }: StopInfoProps) {
   const arrivalsGrouped = new Map<string, Array<number>>();
   arrivals && arrivals.forEach(arrival => {
     const key = `${arrival.routeNr} ${arrival.headsign}`;
@@ -23,7 +25,7 @@ export function StopInfo({ stopName, arrivals }: StopInfoProps) {
   );
 
   return <>
-    <div>{stopName}</div>
+    <div>{stopName} <span onClick={toggleFavorite}>{isFavorite ? "★" : "☆"}</span></div>
     {sortedArrivals.map(([key, times]) => (
       <div key={key}>{key}: {times.map(time => <span key={`${key}-${time}`}>{time}mín</span>)}</div>
     ))}

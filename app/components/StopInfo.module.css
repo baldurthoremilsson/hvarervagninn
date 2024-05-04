@@ -1,6 +1,45 @@
+.stopInfo {
+}
+
 .stopName {
     font-size: 20px;
     font-weight: bold;
+}
+
+.waitingTime {}
+
+.arrivalInfo {
+    margin-bottom: 10px;
+}
+
+.routeNumber {
+    color: var(--color-route-text);
+    background-color: var(--color-route);
+    padding: 0.3em;
+    border-radius: 50%;
+}
+
+.routeArrow {
+    color: var(--color-route-arrow);
+    font-size: 1.3em;
+    padding: 0 10px;
+}
+
+.routeHeadsign {
+
+}
+
+.waitingTime {
+    margin: 0 20px;
+}
+
+.arrivalTime {
+    color: gray;
+}
+
+.arrivalTime:not(:last-child)::after {
+    content: " • ";
+    padding: 5px 0;
 }
 
 .route {

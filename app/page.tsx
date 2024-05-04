@@ -15,10 +15,10 @@ const FAVORITE_STOPS_KEY = "FAVORITE_STOPS_KEY_1";
 
 export default function Home() {
   let [currentPos, setCurrentPos] = useState<Coords>({lat: DEFAULT_LAT, lon: DEFAULT_LON});
-  let [stops, setStops] = useState<Array<Stop>>([]);
-  let [sortedStops, setSortedStops] = useState<Array<Stop>>([]);
+  let [stops, setStops] = useState<Stop[]>([]);
+  let [sortedStops, setSortedStops] = useState<Stop[]>([]);
   let [numberOfStops, setNumberOfStops] = useState<number>(DEFAULT_NUMBER_OF_STOPS);
-  let [arrivals, setArrivals] = useState<Map<number, Array<BusLocationArrival>>>(new Map());
+  let [arrivals, setArrivals] = useState<Map<number, BusLocationArrival[]>>(new Map());
   let [favoriteIds, setFavoriteIds] = useState<Set<number>>(
     new Set(getLocalStorage(FAVORITE_STOPS_KEY, []))
   );

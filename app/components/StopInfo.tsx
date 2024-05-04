@@ -3,33 +3,57 @@ import styles from "./StopInfo.module.css";
 
 type StopInfoProps = {
   stopName: string,
-  arrivals: Array<BusLocationArrival> | undefined,
+  arrivals: BusLocationArrival[] | undefined,
   isFavorite: boolean,
   toggleFavorite: () => void,
 };
 
-type ArrivalEntry = [string, Array<number>];
+type ArrivalInfo = {
+  key: string,
+  routeNr: string,
+  headsign: string,
+  arrivals: BusLocationArrival[],
+};
+
+function ArrivalInfo({ info }: { info: ArrivalInfo}) {
+  let timestamp = null;
+  if(info.arrivals.length > 0) {
+    timestamp = <span className={styles.waitingTime}>{info.arrivals[0].waitingTime} mín.</span>
+  }
+  return <div className={`${styles.arrivalInfo} route-${info.routeNr}`}>
+    <span className={styles.routeNumber}>{info.routeNr}</span>
+    <span className={styles.routeArrow}>→</span>
+    <span className={styles.routeHeadsign}>{info.headsign}</span>
+    {timestamp}
+    {info.arrivals.map(busLocationArrival => (
+      <span key={`${info.key}-${busLocationArrival.arrival}`} className={styles.arrivalTime}>{busLocationArrival.arrival}</span>
+    ))}
+  </div>;
+}
 
 export function StopInfo({ stopName, arrivals, isFavorite, toggleFavorite }: StopInfoProps) {
-  const arrivalsGrouped = new Map<string, Array<number>>();
+  const arrivalsGrouped = new Map<string, ArrivalInfo>();
   arrivals && arrivals.forEach(arrival => {
     const key = `${arrival.routeNr} ${arrival.headsign}`;
-    const val = arrivalsGrouped.get(key) || [];
-    val.push(arrival.waitingTime);
+    const val = arrivalsGrouped.get(key) || {
+      key,
+      routeNr: arrival.routeNr,
+      headsign: arrival.headsign,
+      arrivals: [],
+    };
+    val.arrivals.push(arrival);
     arrivalsGrouped.set(key, val);
   });
 
-  const arrivalEntries: Array<ArrivalEntry> = [...arrivalsGrouped.entries()];
-  const sortedArrivals = arrivalEntries.toSorted(
-    (a: ArrivalEntry, b: ArrivalEntry) => Math.min(...a[1]) - Math.min(...b[1])
-  );
+  const arrivalInfos: ArrivalInfo[] = [...arrivalsGrouped.values()];
+  const sortedArrivals = arrivalInfos.toSorted((a: ArrivalInfo, b: ArrivalInfo) => {
+    const keyA = `${a.routeNr} ${a.headsign}`;
+    const keyB = `${b.routeNr} ${b.headsign}`;
+    return keyA < keyB ? -1 : 1;
+  });
 
-  return <>
+  return <div className={styles.stopInfo}>
     <div className={styles.stopName}>{stopName} <span onClick={toggleFavorite}>{isFavorite ? "★" : "☆"}</span></div>
-    {sortedArrivals.map(([route, times]) => (
-      <div key={route}><span className={styles.route}>{route}</span> {times.map(time => (
-        <span key={`${route}-${time}`} className={styles.time}>{time}mín</span>
-      ))}</div>
-    ))}
-  </>;
+    {sortedArrivals.map(info => <ArrivalInfo key={info.key} info={info} />)}
+  </div>;
 }

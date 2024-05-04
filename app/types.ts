@@ -12,8 +12,8 @@ export type Stop = {
     rotation: number,
     code: string,
     isTerminal: boolean,
-    routes: Array<string>,
-    alerts: Array<string>,
+    routes: string[],
+    alerts: string[],
 }
 
 export type BusLocationTrip = {

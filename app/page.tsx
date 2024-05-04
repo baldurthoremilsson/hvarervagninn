@@ -102,9 +102,9 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <ol>
+      <ol className={styles.stopsList}>
         {sortedStops.map(stop => (
-          <li key={stop.id}>
+          <li key={stop.id} className={styles.stopInfo}>
             <StopInfo
               stopName={stop.name}
               arrivals={arrivals.get(stop.id)}
@@ -114,7 +114,10 @@ export default function Home() {
           </li>
         ))}
       </ol>
-      <button onClick={increaseNumberOfStops}>Sýna fleiri</button>
+      <button
+        className={styles.showMoreButton}
+        onClick={increaseNumberOfStops}
+        >Sýna fleiri</button>
     </main>
   )
 }

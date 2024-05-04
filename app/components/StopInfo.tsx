@@ -1,4 +1,5 @@
 import { BusLocationArrival } from "../types";
+import styles from "./StopInfo.module.css";
 
 type StopInfoProps = {
   stopName: string,
@@ -18,16 +19,17 @@ export function StopInfo({ stopName, arrivals, isFavorite, toggleFavorite }: Sto
     arrivalsGrouped.set(key, val);
   });
 
-  // TODO typing
   const arrivalEntries: Array<ArrivalEntry> = [...arrivalsGrouped.entries()];
   const sortedArrivals = arrivalEntries.toSorted(
     (a: ArrivalEntry, b: ArrivalEntry) => Math.min(...a[1]) - Math.min(...b[1])
   );
 
   return <>
-    <div>{stopName} <span onClick={toggleFavorite}>{isFavorite ? "★" : "☆"}</span></div>
-    {sortedArrivals.map(([key, times]) => (
-      <div key={key}>{key}: {times.map(time => <span key={`${key}-${time}`}>{time}mín</span>)}</div>
+    <div className={styles.stopName}>{stopName} <span onClick={toggleFavorite}>{isFavorite ? "★" : "☆"}</span></div>
+    {sortedArrivals.map(([route, times]) => (
+      <div key={route}><span className={styles.route}>{route}</span> {times.map(time => (
+        <span key={`${route}-${time}`} className={styles.time}>{time}mín</span>
+      ))}</div>
     ))}
   </>;
 }

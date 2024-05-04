@@ -1,0 +1,13 @@
+.stopName {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.route {
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.time {
+    margin-right: 3px;
+}

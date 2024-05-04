@@ -13,7 +13,7 @@ export const sortByDistance = (currentPos: Coords) => {
 }
 
 export const getLocalStorage = <T>(key: string, defaultValue: T) => {
-    const val = localStorage.getItem(key);
+    const val = typeof window !== "undefined" ? window.localStorage.getItem(key) : null;
     if(val === null) {
         return defaultValue;
     } else {
@@ -22,5 +22,7 @@ export const getLocalStorage = <T>(key: string, defaultValue: T) => {
 }
 
 export const setLocalStorage = <T>(key: string, val: T) => {
-    localStorage.setItem(key, JSON.stringify(val));
+    if(typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(val));
+    }
 }

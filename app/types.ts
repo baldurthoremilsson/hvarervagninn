@@ -32,3 +32,18 @@ export type BusLocationArrival = {
     trip: BusLocationTrip,
     waitingTime: number,
 }
+
+export type BusLocationStop = {
+    id: number,
+    name: string,
+    lat: number,
+    lon: number,
+}
+
+export type BusLocationByStop = {
+    lastUpdate: string,
+    stop: BusLocationStop,
+    name: string,
+    arrivals: BusLocationArrival[],
+    errorCode: string | null,
+}

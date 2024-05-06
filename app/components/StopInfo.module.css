@@ -6,6 +6,11 @@
     font-weight: bold;
 }
 
+.favorite {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
 .waitingTime {}
 
 .arrivalInfo {

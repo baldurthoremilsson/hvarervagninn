@@ -53,7 +53,10 @@ export function StopInfo({ stopName, arrivals, isFavorite, toggleFavorite }: Sto
   });
 
   return <div className={styles.stopInfo}>
-    <div className={styles.stopName}>{stopName} <span onClick={toggleFavorite}>{isFavorite ? "★" : "☆"}</span></div>
+    <div className={styles.stopName}>
+      {stopName}
+      <span className={styles.favorite} onClick={toggleFavorite}>{isFavorite ? "★" : "☆"}</span>
+    </div>
     {sortedArrivals.map(info => <ArrivalInfo key={info.key} info={info} />)}
   </div>;
 }

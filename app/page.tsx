@@ -67,7 +67,7 @@ export default function Home() {
     let stopsToFetch = new Array(...sortedStops);
 
     const fetchNext = () => {
-      const nextStop = stopsToFetch.pop();
+      const nextStop = stopsToFetch.shift();
       if(nextStop === undefined) {
         stopsToFetch = new Array(...sortedStops);
         timeout = setTimeout(fetchNext, FETCH_BUS_LOCATION_BY_STOP_TIMEOUT);

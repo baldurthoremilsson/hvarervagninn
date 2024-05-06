@@ -10,7 +10,7 @@
 }
 
 .stopInfo {
-    padding: 10px 5px;
+    padding: 10px;
 }
 
 .stopInfo:nth-child(2n+1) {
@@ -21,12 +21,15 @@
     border: 0;
     width: 100%;
     text-align: center;
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 5px;
 }
 
 /* header */
 .header {
     position: relative;
-    margin: 10px 0;
+    margin: 10px;
 }
 
 .headerH1 {
@@ -44,7 +47,7 @@
     position: absolute;
     font-size: 32px;
     top: 0;
-    right: 5px;
+    right: 0;
     cursor: pointer;
 }
 
@@ -66,4 +69,12 @@
     top: 4px;
     right: 4px;
     cursor: pointer;
+}
+
+/* footer */
+.footer {
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #888;
 }

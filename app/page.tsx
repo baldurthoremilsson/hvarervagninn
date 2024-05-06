@@ -160,6 +160,12 @@ export default function Home() {
         className={styles.showMoreButton}
         onClick={increaseNumberOfStops}
         >Sýna fleiri</button>
+      
+      <footer className={styles.footer}>
+        <a href="mailto:baldur@baldur.biz">Baldur Þór</a> smíðaði og setti upp<br />
+        Notar rauntímagögn frá <a href="https://straeto.is" target="_blank">Strætó</a><br />
+        og kóðinn er á <a href="https://github.com/baldurthoremilsson/hvarervagninn" target="_blank">Github</a>
+      </footer>
     </main>
   )
 }

@@ -7,6 +7,11 @@ html, body {
   --color-route: #000;
 }
 
+a, a:visited, a:hover, a:active, a:link {
+  text-decoration: none;
+  color: #5474ba;
+}
+
 /* borrowed from straeto.is */
 
 .route-S1 {

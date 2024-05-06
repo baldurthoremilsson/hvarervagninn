@@ -13,7 +13,7 @@
     padding: 10px 5px;
 }
 
-.stopInfo:nth-child(2n) {
+.stopInfo:nth-child(2n+1) {
     background-color: #f0f0f0;
 }
 
@@ -21,4 +21,15 @@
     border: 0;
     width: 100%;
     text-align: center;
+}
+
+.headerH1 {
+    font-size: 24px;
+    margin: 10px 0 0 0;
+}
+
+.headerH2 {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
 }

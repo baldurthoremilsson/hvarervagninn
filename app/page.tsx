@@ -102,6 +102,10 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
+      <header>
+        <h1 className={styles.headerH1}>Hvar er vagninn?</h1>
+        <h2 className={styles.headerH2}>Byggt á rauntímagögnum frá Strætó</h2>
+      </header>
       <ol className={styles.stopsList}>
         {sortedStops.map(stop => (
           <li key={stop.id} className={styles.stopInfo}>

@@ -1,4 +1,4 @@
-const STRAETO_API = "https://straeto.is/graphql"
+const STRAETO_API = "https://api.straeto.is/graphql"
 const GRAPHQL_HEADERS = { "Content-Type": "application/json" };
 const QUERY_STOPS = `
 fragment StopsResult on GtfsStop {
